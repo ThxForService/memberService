@@ -1,4 +1,4 @@
-package org.thxforservice.global.entities;
+package com.thxforservice.global.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

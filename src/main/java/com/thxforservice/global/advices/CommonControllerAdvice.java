@@ -1,9 +1,9 @@
-package org.thxforservice.global.advices;
+package com.thxforservice.global.advices;
 
 import lombok.RequiredArgsConstructor;
-import org.thxforservice.global.Utils;
-import org.thxforservice.global.exceptions.CommonException;
-import org.thxforservice.global.rests.JSONData;
+import com.thxforservice.global.Utils;
+import com.thxforservice.global.exceptions.CommonException;
+import com.thxforservice.global.rests.JSONData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;

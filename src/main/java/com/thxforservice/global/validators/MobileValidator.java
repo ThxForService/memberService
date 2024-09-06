@@ -1,4 +1,4 @@
-package org.thxforservice.global.validators;
+package com.thxforservice.global.validators;
 
 public interface MobileValidator {
     default boolean mobileCheck(String mobile) {

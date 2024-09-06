@@ -1,4 +1,4 @@
-package org.thxforservice.global.configs;
+package com.thxforservice.global.configs;
 
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Configuration;

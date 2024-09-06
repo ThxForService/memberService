@@ -1,4 +1,4 @@
-package org.thxforservice.global.validators;
+package com.thxforservice.global.validators;
 
 public interface PasswordValidator {
     /**

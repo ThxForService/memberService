@@ -1,4 +1,4 @@
-package org.thxforservice.global;
+package com.thxforservice.global;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;

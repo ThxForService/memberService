@@ -1,4 +1,4 @@
-package org.thxforservice.global.exceptions;
+package com.thxforservice.global.exceptions;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,5 +1,6 @@
-package org.thxforservice.global.exceptions;
+package com.thxforservice.global.exceptions;
 
+import com.thxforservice.global.exceptions.CommonException;
 import org.springframework.http.HttpStatus;
 
 public class UnAuthorizedException extends CommonException {

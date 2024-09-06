@@ -1,7 +1,10 @@
-package org.thxforservice.member.constants;
+package com.thxforservice.member.constants;
 
 public enum Authority {
     ALL,
     USER,
+    STUDENT,
+    PROFESSOR,
+    COUNSELOR,
     ADMIN
 }

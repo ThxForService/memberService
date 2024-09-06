@@ -1,4 +1,4 @@
-package org.thxforservice.member.controllers;
+package com.thxforservice.member.controllers;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

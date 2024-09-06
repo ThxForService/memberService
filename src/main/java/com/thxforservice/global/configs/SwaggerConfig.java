@@ -1,4 +1,4 @@
-package org.thxforservice.global.configs;
+package com.thxforservice.global.configs;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;

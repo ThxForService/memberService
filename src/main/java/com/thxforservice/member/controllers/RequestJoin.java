@@ -1,4 +1,4 @@
-package org.thxforservice.member.controllers;
+package com.thxforservice.member.controllers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.AssertTrue;

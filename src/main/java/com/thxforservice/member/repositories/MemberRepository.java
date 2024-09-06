@@ -1,7 +1,7 @@
-package org.thxforservice.member.repositories;
+package com.thxforservice.member.repositories;
 
-import org.thxforservice.member.entities.Member;
-import org.thxforservice.member.entities.QMember;
+import com.thxforservice.member.entities.Member;
+import com.thxforservice.member.entities.QMember;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -9,7 +9,6 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslPredicateExecutor<Member> {
-    @EntityGraph(attributePaths = "authorities")
     Optional<Member> findByEmail(String email);
 
     default boolean exists(String email) {

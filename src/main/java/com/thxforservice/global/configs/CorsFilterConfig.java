@@ -1,4 +1,4 @@
-package org.thxforservice.global.configs;
+package com.thxforservice.global.configs;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

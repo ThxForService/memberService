@@ -1,12 +1,12 @@
-package org.thxforservice.member.jwt;
+package com.thxforservice.member.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.thxforservice.global.exceptions.UnAuthorizedException;
-import org.thxforservice.member.MemberInfo;
-import org.thxforservice.member.services.MemberInfoService;
+import com.thxforservice.global.exceptions.UnAuthorizedException;
+import com.thxforservice.member.MemberInfo;
+import com.thxforservice.member.services.MemberInfoService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

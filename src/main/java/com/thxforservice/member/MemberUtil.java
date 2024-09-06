@@ -1,10 +1,9 @@
-package org.thxforservice.member;
+package com.thxforservice.member;
 
 import lombok.RequiredArgsConstructor;
-import org.thxforservice.member.constants.Authority;
-import org.thxforservice.member.entities.Authorities;
-import org.thxforservice.member.entities.Member;
-import org.thxforservice.member.repositories.MemberRepository;
+import com.thxforservice.member.constants.Authority;
+import com.thxforservice.member.entities.Member;
+import com.thxforservice.member.repositories.MemberRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -23,8 +22,8 @@ public class MemberUtil {
 
     public boolean isAdmin() {
         if (isLogin()) {
-            List<Authorities> authorities = getMember().getAuthorities();
-            return authorities.stream().anyMatch(s -> s.getAuthority().equals(Authority.ADMIN));
+
+            return getMember().getAuthority() == Authority.ADMIN;
         }
         return false;
     }

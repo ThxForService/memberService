@@ -1,4 +1,4 @@
-package org.thxforservice.global.entities;
+package com.thxforservice.global.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;

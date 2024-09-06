@@ -1,6 +1,6 @@
-package org.thxforservice.member.exceptions;
+package com.thxforservice.member.exceptions;
 
-import org.thxforservice.global.exceptions.CommonException;
+import com.thxforservice.global.exceptions.CommonException;
 import org.springframework.http.HttpStatus;
 
 public class MemberNotFoundException extends CommonException {

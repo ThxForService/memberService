@@ -1,4 +1,4 @@
-package org.thxforservice.member.jwt;
+package com.thxforservice.member.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

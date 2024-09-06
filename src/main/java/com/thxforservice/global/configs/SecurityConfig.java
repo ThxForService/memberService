@@ -1,7 +1,7 @@
-package org.thxforservice.global.configs;
+package com.thxforservice.global.configs;
 
 import lombok.RequiredArgsConstructor;
-import org.thxforservice.member.jwt.JwtFilter;
+import com.thxforservice.member.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -43,6 +43,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/api-docs/**"
                             ).permitAll() // 회원가입, 로그인(토큰)은 모든 접근 가능
+                                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                             .anyRequest().authenticated(); // 그외에는 인증 필요
                 });
 

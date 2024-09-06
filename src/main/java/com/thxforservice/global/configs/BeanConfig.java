@@ -1,4 +1,4 @@
-package org.thxforservice.global.configs;
+package com.thxforservice.global.configs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

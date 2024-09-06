@@ -1,8 +1,8 @@
-package org.thxforservice.member;
+package com.thxforservice.member;
 
 import lombok.Builder;
 import lombok.Data;
-import org.thxforservice.member.entities.Member;
+import com.thxforservice.member.entities.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -1,4 +1,4 @@
-package org.thxforservice.global.exceptions;
+package com.thxforservice.global.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,15 +1,13 @@
-package org.thxforservice.member.services;
+package com.thxforservice.member.services;
 
+import com.thxforservice.member.constants.Authority;
 import lombok.RequiredArgsConstructor;
-import org.thxforservice.member.MemberUtil;
-import org.thxforservice.member.constants.Authority;
-import org.thxforservice.member.controllers.RequestJoin;
-import org.thxforservice.member.controllers.RequestUpdate;
-import org.thxforservice.member.entities.Authorities;
-import org.thxforservice.member.entities.Member;
-import org.thxforservice.member.exceptions.MemberNotFoundException;
-import org.thxforservice.member.repositories.AuthoritiesRepository;
-import org.thxforservice.member.repositories.MemberRepository;
+import com.thxforservice.member.MemberUtil;
+import com.thxforservice.member.controllers.RequestJoin;
+import com.thxforservice.member.controllers.RequestUpdate;
+import com.thxforservice.member.entities.Member;
+import com.thxforservice.member.exceptions.MemberNotFoundException;
+import com.thxforservice.member.repositories.MemberRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MemberSaveService {
     private final MemberRepository memberRepository;
-    private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
     /**
@@ -37,7 +34,7 @@ public class MemberSaveService {
         String hash = passwordEncoder.encode(form.getPassword()); // BCrypt 해시화
         member.setPassword(hash);
 
-        save(member, List.of(Authority.USER));
+        save(member);
     }
 
     /**
@@ -62,10 +59,10 @@ public class MemberSaveService {
             member.setPassword(hash);
         }
 
-        save(member, null);
+        save(member);
     }
 
-    public void save(Member member, List<Authority> authorities) {
+    public void save(Member member) {
 
         // 휴대전화번호 숫자만 기록
         String mobile = member.getMobile();
@@ -80,20 +77,6 @@ public class MemberSaveService {
 
         memberRepository.saveAndFlush(member);
 
-
-        // 권한 추가, 수정 S
-        if (authorities != null) {
-            List<Authorities> items = authoritiesRepository.findByMember(member);
-            authoritiesRepository.deleteAll(items);
-            authoritiesRepository.flush();
-
-            items = authorities.stream().map(a -> Authorities.builder()
-                    .member(member)
-                    .authority(a)
-                    .build()).toList();
-
-            authoritiesRepository.saveAllAndFlush(items);
-        }
         // 권한 추가, 수정 E
     }
 }

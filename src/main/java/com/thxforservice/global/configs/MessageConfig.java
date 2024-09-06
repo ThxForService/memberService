@@ -1,4 +1,4 @@
-package org.thxforservice.global.configs;
+package com.thxforservice.global.configs;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

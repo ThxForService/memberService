@@ -1,10 +1,11 @@
-package org.thxforservice.member.validators;
+package com.thxforservice.member.validators;
 
+
+import com.thxforservice.global.validators.MobileValidator;
+import com.thxforservice.global.validators.PasswordValidator;
+import com.thxforservice.member.controllers.RequestJoin;
+import com.thxforservice.member.repositories.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.thxforservice.global.validators.MobileValidator;
-import org.thxforservice.global.validators.PasswordValidator;
-import org.thxforservice.member.controllers.RequestJoin;
-import org.thxforservice.member.repositories.MemberRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

@@ -1,4 +1,4 @@
-package org.thxforservice.member.jwt;
+package com.thxforservice.member.jwt;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

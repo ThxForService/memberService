@@ -1,4 +1,4 @@
-package org.thxforservice.global.rests;
+package com.thxforservice.global.rests;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,11 @@
-package org.thxforservice.member.controllers;
+package com.thxforservice.member.controllers;
 
+import com.thxforservice.global.Utils;
+import com.thxforservice.global.rests.JSONData;
+import com.thxforservice.member.MemberInfo;
+import com.thxforservice.member.jwt.TokenProvider;
+import com.thxforservice.member.services.MemberSaveService;
+import com.thxforservice.member.validators.JoinValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -8,14 +14,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.thxforservice.global.Utils;
-import org.thxforservice.global.exceptions.BadRequestException;
-import org.thxforservice.global.rests.JSONData;
-import org.thxforservice.member.MemberInfo;
-import org.thxforservice.member.entities.Member;
-import org.thxforservice.member.jwt.TokenProvider;
-import org.thxforservice.member.services.MemberSaveService;
-import org.thxforservice.member.validators.JoinValidator;
+import com.thxforservice.member.entities.Member;
+import com.thxforservice.global.exceptions.BadRequestException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
