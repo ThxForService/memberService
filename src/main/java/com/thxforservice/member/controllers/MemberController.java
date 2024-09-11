@@ -6,6 +6,7 @@ import com.thxforservice.global.rests.JSONData;
 import com.thxforservice.member.MemberInfo;
 import com.thxforservice.member.entities.Member;
 import com.thxforservice.member.jwt.TokenProvider;
+import com.thxforservice.member.services.MemberInfoService;
 import com.thxforservice.member.services.MemberSaveService;
 import com.thxforservice.member.validators.JoinValidator;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +24,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Member", description = "회원 인증 API")
 @RestController
 @RequestMapping("/account")
@@ -32,6 +35,7 @@ public class MemberController {
     private final JoinValidator joinValidator;
     private final MemberSaveService saveService;
     private final TokenProvider tokenProvider;
+    private final MemberInfoService memberInfoService;
     private final Utils utils;
 
     @Operation(summary = "인증(로그인)한 회원 정보 조회")
@@ -88,4 +92,14 @@ public class MemberController {
 
         return new JSONData(token);
     }
+
+    @Operation(summary = "회원정보리스트")
+    @ApiResponse(responseCode = "200")
+    // 회원정보 리스트 조회
+    @GetMapping("/list")
+    public JSONData list() {
+        List<Member> members = memberInfoService.getMembers();
+        return new JSONData(members);
+    }
+
 }

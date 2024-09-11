@@ -38,6 +38,7 @@ public class MemberInfoService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Member member = memberRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
         Authority authority = member.getAuthority();
         if (authority == Authority.COUNSELOR) {
             member = employeeRepository.findById(member.getMemberSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
@@ -54,6 +55,10 @@ public class MemberInfoService implements UserDetailsService {
                 .member(member)
                 .authorities(authorities)
                 .build();
+    }
+
+    public List<Member> getMembers() {
+        return memberRepository.findAll();
     }
 
     /**
