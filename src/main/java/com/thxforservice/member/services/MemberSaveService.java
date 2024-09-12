@@ -24,9 +24,11 @@ public class MemberSaveService {
     private final MemberRepository memberRepository;
     private final EmployeeRepository employeeRepository;
     private final StudentRepository studentRepository;
+    private final MemberInfoService infoService;
 
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
+
     /**
      * 회원 가입 처리
      *

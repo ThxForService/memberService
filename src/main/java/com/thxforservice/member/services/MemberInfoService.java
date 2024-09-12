@@ -2,6 +2,8 @@ package com.thxforservice.member.services;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.thxforservice.file.entities.FileInfo;
+import com.thxforservice.file.services.FileInfoService;
 import com.thxforservice.global.ListData;
 import com.thxforservice.global.Pagination;
 import com.thxforservice.member.MemberInfo;
@@ -32,6 +34,8 @@ public class MemberInfoService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final EmployeeRepository employeeRepository;
     private final StudentRepository studentRepository;
+    private final FileInfoService fileInfoService;
+
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
 
@@ -49,6 +53,8 @@ public class MemberInfoService implements UserDetailsService {
 
 
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(authority.name()));
+
+        addInfo(member);
 
         return MemberInfo.builder()
                 .email(member.getEmail())
@@ -121,4 +127,11 @@ public class MemberInfoService implements UserDetailsService {
 
         return new ListData<>(items, pagination);
     }
+    public void addInfo(Member member) {
+        List<FileInfo> files = fileInfoService.getList(member.getGid());
+        if (files != null && !files.isEmpty()) {
+            member.setProfileImage(files.get(0));
+        }
+    }
+
 }

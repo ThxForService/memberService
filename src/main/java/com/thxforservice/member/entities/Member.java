@@ -1,5 +1,6 @@
 package com.thxforservice.member.entities;
 
+import com.thxforservice.file.entities.FileInfo;
 import com.thxforservice.global.entities.BaseEntity;
 import com.thxforservice.member.constants.Authority;
 import jakarta.persistence.*;
@@ -45,4 +46,6 @@ public class Member extends BaseEntity {
     @Column(length=45, nullable = false)
     private String gid; // 파일
 
+    @Transient
+    private FileInfo profileImage;
 }
