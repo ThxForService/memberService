@@ -10,6 +10,7 @@ import com.thxforservice.member.jwt.TokenProvider;
 import com.thxforservice.member.services.MemberInfoService;
 import com.thxforservice.member.services.MemberSaveService;
 import com.thxforservice.member.validators.JoinValidator;
+import com.thxforservice.mypage.controllers.RequestProfile;
 import com.thxforservice.mypage.validators.ProfileUpdateValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -108,7 +109,7 @@ public class MemberController {
     }
 
     @PatchMapping
-    public JSONData update(@Valid @RequestBody RequestUpdate form, Errors errors) {
+    public JSONData update(@Valid @RequestBody RequestProfile form, Errors errors) {
 
         updateValidator.validate(form, errors);
 

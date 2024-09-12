@@ -4,13 +4,13 @@ import com.thxforservice.member.MemberUtil;
 import com.thxforservice.member.constants.Authority;
 import com.thxforservice.member.constants.Status;
 import com.thxforservice.member.controllers.RequestJoin;
-import com.thxforservice.member.controllers.RequestUpdate;
 import com.thxforservice.member.entities.Employee;
 import com.thxforservice.member.entities.Member;
 import com.thxforservice.member.entities.Student;
 import com.thxforservice.member.repositories.EmployeeRepository;
 import com.thxforservice.member.repositories.MemberRepository;
 import com.thxforservice.member.repositories.StudentRepository;
+import com.thxforservice.mypage.controllers.RequestProfile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -68,7 +68,7 @@ public class MemberSaveService {
             employee.setIntroduction(form.getIntroduction());
             employee.setSubject(form.getSubject());
             employee.setRating(form.getRating());
-            employee.setStatus(Status.valueOf(form.getStatus()));
+            employee.setStatus(form.getStatus() == null ? Status.EMPLOYED : Status.valueOf(form.getStatus()));
 
             employeeRepository.saveAndFlush(employee);
 
@@ -76,7 +76,7 @@ public class MemberSaveService {
             student.setStudentNo(form.getStudentNo());
             student.setGrade(form.getGrade());
             student.setDepartment(form.getDepartment());
-            student.setStatus(Status.valueOf(form.getStatus()));
+            student.setStatus(form.getStatus() == null ? Status.UNDERGRADUATE : Status.valueOf(form.getStatus()));
 
             studentRepository.saveAndFlush(student);
         }
@@ -86,7 +86,7 @@ public class MemberSaveService {
      * 회원정보 수정
      * @param form
      */
-    public void save(RequestUpdate form) {
+    public void save(RequestProfile form) {
 
     }
 
