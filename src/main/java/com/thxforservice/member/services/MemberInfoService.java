@@ -9,6 +9,7 @@ import com.thxforservice.member.constants.Authority;
 import com.thxforservice.member.controllers.MemberSearch;
 import com.thxforservice.member.entities.Member;
 import com.thxforservice.member.entities.QMember;
+import com.thxforservice.member.entities.QStudent;
 import com.thxforservice.member.repositories.EmployeeRepository;
 import com.thxforservice.member.repositories.MemberRepository;
 import com.thxforservice.member.repositories.StudentRepository;
@@ -76,7 +77,8 @@ public class MemberInfoService implements UserDetailsService {
 
         /* 검색 처리 S */
         BooleanBuilder andBuilder = new BooleanBuilder();
-        QMember member = QMember.member;
+        QMember member = QMember.member; // 학번은 멤버를 가져올 때 다르게 가져와야 할 듯...
+
 
         String sopt = search.getSopt();
         String skey = search.getSkey();
@@ -90,6 +92,19 @@ public class MemberInfoService implements UserDetailsService {
             }
 
         }
+
+        List<String> email = search.getEmail();
+        if (email != null && !email.isEmpty()) {
+            andBuilder.and(member.email.in(email)); // 학생을 그룹 지어서 조회
+        }
+        List<String> authoritiy = search.getAuthority();
+        if (authoritiy != null && !authoritiy.isEmpty()) {
+            List<Authority> authorities = authoritiy.stream().map(Authority::valueOf).toList();
+            andBuilder.and(member.authority.in(authorities)); // 권환 체크
+        }
+
+
+
 
         /* 검색 처리 E */
 

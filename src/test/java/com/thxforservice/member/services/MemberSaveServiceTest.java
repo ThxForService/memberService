@@ -107,15 +107,20 @@ public class MemberSaveServiceTest {
     @DisplayName("회원 가입 테스트")
     void joinTest2() throws Exception {
         RequestJoin form = new RequestJoin();
+        form.setStudentNo(Long.valueOf("12345"));
         form.setEmail("user100@test.org");
         form.setPassword("_aA123456");
         form.setConfirmPassword(form.getPassword());
         form.setMobile("010-1000-1000");
         form.setUsername("사용자100");
         form.setBirthDate(LocalDate.of(1999, 12, 31));
-        form.setStatus(String.valueOf(Status.EMPLOYED));
-        form.setEmpNo(Long.valueOf("12345"));
-        form.setAuthority(String.valueOf(Authority.COUNSELOR));
+        form.setStatus(String.valueOf(Status.UNDERGRADUATE));
+        form.setAuthority(String.valueOf(Authority.STUDENT));
+        form.setGrade("1");
+        form.setDepartment("컴퓨터공학");
+        form.setZonecode("22047");
+        form.setAddress("서울특별시 서대문구");
+        form.setAddressSub("이화로 502번길");
         form.setAgree(true);
 
         String params = om.writeValueAsString(form);
