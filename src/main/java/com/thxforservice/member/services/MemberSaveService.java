@@ -1,5 +1,6 @@
 package com.thxforservice.member.services;
 
+import com.thxforservice.global.Utils;
 import com.thxforservice.member.MemberUtil;
 import com.thxforservice.member.constants.Authority;
 import com.thxforservice.member.constants.Status;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import com.thxforservice.member.exceptions.MemberNotFoundException;
 
 @Service
 @Transactional
@@ -28,6 +30,8 @@ public class MemberSaveService {
 
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
+    private final Utils utils;
+
 
     /**
      * 회원 가입 처리
@@ -87,7 +91,46 @@ public class MemberSaveService {
      * @param form
      */
     public void save(RequestProfile form) {
+        Member member = memberUtil.getMember();
+        String email = member.getEmail();
+        member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
+        Authority authority = member.getAuthority();
+
+        if (authority == authority.STUDENT) {
+            member = studentRepository.findById(member.getMemberSeq()).orElseThrow(MemberNotFoundException::new);
+        } else {
+            member = employeeRepository.findById(member.getMemberSeq()).orElseThrow(MemberNotFoundException::new);
+        }
+
+        /* 공통 수정 항목 B */
+        String password = form.getPassword();
+        if (StringUtils.hasText(password)) {
+            String hash = passwordEncoder.encode(password);
+            member.setPassword(hash);
+        }
+
+        String mobile = form.getMobile();
+        if (StringUtils.hasText(mobile)) {
+            mobile = mobile.replaceAll("\\D", "");
+        }
+
+        member.setMobile(mobile);
+        member.setZonecode(form.getZonecode());
+        member.setAddress(form.getAddress());
+        member.setAddressSub(form.getAddressSub());
+        member.setBirthdate(form.getBirthdate());
+
+        /* 공통 수정 항목 D */
+
+        // 교직원(상담사, 교수), 관리자
+        if (member instanceof Employee employee) {
+            employee.setEmpNo(form.getEmpNo());
+            employeeRepository.saveAndFlush(employee);
+        } else if (member instanceof Student student) {
+            student.setStudentNo(form.getStudentNo());
+            studentRepository.saveAndFlush(student);
+        }
     }
 
 
