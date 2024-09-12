@@ -4,10 +4,14 @@ import com.thxforservice.global.Utils;
 import com.thxforservice.global.exceptions.BadRequestException;
 import com.thxforservice.global.rests.JSONData;
 import com.thxforservice.member.MemberInfo;
+import com.thxforservice.member.MemberUtil;
 import com.thxforservice.member.entities.Member;
 import com.thxforservice.member.jwt.TokenProvider;
+import com.thxforservice.member.services.MemberInfoService;
 import com.thxforservice.member.services.MemberSaveService;
 import com.thxforservice.member.validators.JoinValidator;
+import com.thxforservice.mypage.controllers.RequestProfile;
+import com.thxforservice.mypage.validators.ProfileUpdateValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -16,12 +20,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.sql.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Member", description = "회원 인증 API")
 @RestController
@@ -32,6 +39,9 @@ public class MemberController {
     private final JoinValidator joinValidator;
     private final MemberSaveService saveService;
     private final TokenProvider tokenProvider;
+    private final ProfileUpdateValidator updateValidator;
+    private final MemberInfoService memberInfoService;
+    private final MemberUtil memberUtil;
     private final Utils utils;
 
     @Operation(summary = "인증(로그인)한 회원 정보 조회")
@@ -88,4 +98,30 @@ public class MemberController {
         System.out.println("token: " + token);
         return new JSONData(token);
     }
+
+    @Operation(summary = "회원정보리스트")
+    @ApiResponse(responseCode = "200")
+    // 회원정보 리스트 조회
+    @GetMapping("/list")
+    public JSONData list() {
+        List<Member> members = memberInfoService.getMembers(); // 페이지 형태로 구현
+        return new JSONData(members);
+    }
+
+    @PatchMapping
+    public JSONData update(@Valid @RequestBody RequestProfile form, Errors errors) {
+
+        updateValidator.validate(form, errors);
+
+        if(errors.hasErrors()) {
+            throw new BadRequestException(utils.getErrorMessages(errors));
+        }
+
+        saveService.save(form);
+
+        Member member = memberUtil.getMember();
+
+        return null;
+    }
+
 }

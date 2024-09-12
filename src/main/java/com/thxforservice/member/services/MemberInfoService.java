@@ -2,6 +2,8 @@ package com.thxforservice.member.services;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.thxforservice.file.entities.FileInfo;
+import com.thxforservice.file.services.FileInfoService;
 import com.thxforservice.global.ListData;
 import com.thxforservice.global.Pagination;
 import com.thxforservice.member.MemberInfo;
@@ -9,6 +11,7 @@ import com.thxforservice.member.constants.Authority;
 import com.thxforservice.member.controllers.MemberSearch;
 import com.thxforservice.member.entities.Member;
 import com.thxforservice.member.entities.QMember;
+import com.thxforservice.member.entities.QStudent;
 import com.thxforservice.member.repositories.EmployeeRepository;
 import com.thxforservice.member.repositories.MemberRepository;
 import com.thxforservice.member.repositories.StudentRepository;
@@ -31,6 +34,8 @@ public class MemberInfoService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final EmployeeRepository employeeRepository;
     private final StudentRepository studentRepository;
+    private final FileInfoService fileInfoService;
+
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
 
@@ -38,6 +43,7 @@ public class MemberInfoService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Member member = memberRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
         Authority authority = member.getAuthority();
         if (authority == Authority.COUNSELOR) {
             member = employeeRepository.findById(member.getMemberSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
@@ -48,12 +54,18 @@ public class MemberInfoService implements UserDetailsService {
 
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(authority.name()));
 
+        addInfo(member);
+
         return MemberInfo.builder()
                 .email(member.getEmail())
                 .password(member.getPassword())
                 .member(member)
                 .authorities(authorities)
                 .build();
+    }
+
+    public List<Member> getMembers() {
+        return memberRepository.findAll();
     }
 
     /**
@@ -71,7 +83,8 @@ public class MemberInfoService implements UserDetailsService {
 
         /* 검색 처리 S */
         BooleanBuilder andBuilder = new BooleanBuilder();
-        QMember member = QMember.member;
+        QMember member = QMember.member; // 학번은 멤버를 가져올 때 다르게 가져와야 할 듯...
+
 
         String sopt = search.getSopt();
         String skey = search.getSkey();
@@ -85,6 +98,19 @@ public class MemberInfoService implements UserDetailsService {
             }
 
         }
+
+        List<String> email = search.getEmail();
+        if (email != null && !email.isEmpty()) {
+            andBuilder.and(member.email.in(email)); // 학생을 그룹 지어서 조회
+        }
+        List<String> authoritiy = search.getAuthority();
+        if (authoritiy != null && !authoritiy.isEmpty()) {
+            List<Authority> authorities = authoritiy.stream().map(Authority::valueOf).toList();
+            andBuilder.and(member.authority.in(authorities)); // 권환 체크
+        }
+
+
+
 
         /* 검색 처리 E */
 
@@ -101,4 +127,11 @@ public class MemberInfoService implements UserDetailsService {
 
         return new ListData<>(items, pagination);
     }
+    public void addInfo(Member member) {
+        List<FileInfo> files = fileInfoService.getList(member.getGid());
+        if (files != null && !files.isEmpty()) {
+            member.setProfileImage(files.get(0));
+        }
+    }
+
 }
