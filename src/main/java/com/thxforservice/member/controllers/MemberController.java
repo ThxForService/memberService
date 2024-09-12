@@ -79,13 +79,13 @@ public class MemberController {
     })
     @PostMapping("/token")
     public JSONData token(@RequestBody @Valid RequestLogin form, Errors errors) {
-
+        System.out.println("form: " + form);
         if (errors.hasErrors()) {
            throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
         String token = tokenProvider.createToken(form.getEmail(), form.getPassword());
-
+        System.out.println("token: " + token);
         return new JSONData(token);
     }
 }

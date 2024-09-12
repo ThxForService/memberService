@@ -24,6 +24,7 @@ public class MemberInfo implements UserDetails {
 
     @Override
     public String getPassword() {
+        System.out.println("password:" + password);
         return password;
     }
 
