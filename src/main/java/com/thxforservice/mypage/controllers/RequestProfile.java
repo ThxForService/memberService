@@ -32,13 +32,13 @@ public class RequestProfile {
     private LocalDate birthdate; // 생년월일
 
     // 학생 정보
-    @NotNull
+
     private Long studentNo; // 학번
     private String department; // 학과
     private String grade; // 학년
 
     // 교직원 정보
-    @NotNull
+
     private Long empNo; // 사번
     private String subject; // 담당 과목
 }

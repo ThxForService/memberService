@@ -45,7 +45,7 @@ public class MemberController {
     private final Utils utils;
 
     @Operation(summary = "인증(로그인)한 회원 정보 조회")
-    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "200", description = "조회 가능 범위<br>학생 : 학과, 지도교수, 주소, 휴대폰 번호, 이메일<br>상담사/교수 : 담당 과목, 휴대폰 번호, 이메일" )
     // 로그인한 회원 정보 조회
     @GetMapping
     @PreAuthorize("isAuthenticated()")
@@ -61,7 +61,7 @@ public class MemberController {
             @Parameter(name="email", required = true, description = "이메일"),
             @Parameter(name="password", required = true, description = "비밀번호"),
             @Parameter(name="confirmPassword", required = true, description = "비밀번호 확인"),
-            @Parameter(name="userName", required = true, description = "사용자명"),
+            @Parameter(name="username", required = true, description = "사용자명"),
             @Parameter(name="mobile", description = "휴대전화번호, 형식 검증 있음"),
             @Parameter(name="agree", required = true, description = "회원가입약관 동의")
     })

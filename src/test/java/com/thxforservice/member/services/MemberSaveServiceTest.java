@@ -108,11 +108,11 @@ public class MemberSaveServiceTest {
     void joinTest2() throws Exception {
         RequestJoin form = new RequestJoin();
         form.setStudentNo(Long.valueOf("12345"));
-        form.setEmail("user100@test.org");
+        form.setEmail("user99@test.org");
         form.setPassword("_aA123456");
         form.setConfirmPassword(form.getPassword());
         form.setMobile("010-1000-1000");
-        form.setUsername("사용자100");
+        form.setUsername("사용자99");
         form.setBirthDate(LocalDate.of(1999, 12, 31));
         form.setStatus(String.valueOf(Status.UNDERGRADUATE));
         form.setAuthority(String.valueOf(Authority.STUDENT));
