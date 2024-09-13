@@ -131,10 +131,12 @@ public class MemberSaveService {
             employee.setSubject(form.getSubject());
             employeeRepository.saveAndFlush(employee);
         } else if (member instanceof Student student) {
+            Employee employee = employeeRepository.findById(form.getProfessorSeq()).orElse(null);
             student.setStudentNo(form.getStudentNo());
             student.setStatus(Status.valueOf(form.getStatus()));
             student.setDepartment(form.getDepartment());
             student.setGrade(form.getGrade());
+            student.setProfessor(employee);
             studentRepository.saveAndFlush(student);
         }
 
