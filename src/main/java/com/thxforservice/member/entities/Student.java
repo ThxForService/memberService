@@ -19,7 +19,6 @@ public class Student extends Member {
     @Column(length=50)
     private String department; // 학과
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="professor")
     private Employee professor;
