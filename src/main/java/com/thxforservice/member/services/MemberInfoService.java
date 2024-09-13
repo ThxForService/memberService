@@ -149,7 +149,7 @@ public class MemberInfoService implements UserDetailsService {
 
 
     public void addInfo(Member member) {
-        /*
+    /*
         try {
             List<FileInfo> files = fileInfoService.getList(member.getGid());
             if (files != null && !files.isEmpty()) {
@@ -158,8 +158,10 @@ public class MemberInfoService implements UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+*/
 
-         */
     }
+
+
 
 }

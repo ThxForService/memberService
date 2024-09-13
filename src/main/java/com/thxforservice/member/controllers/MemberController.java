@@ -117,11 +117,10 @@ public class MemberController {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
-        saveService.save(form);
+       Member member = saveService.save(form);
 
-        Member member = memberUtil.getMember();
 
-        return null;
+        return new JSONData(member);
     }
 
 }

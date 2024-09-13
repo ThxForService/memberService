@@ -31,6 +31,8 @@ public class RequestProfile {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birthdate; // 생년월일
 
+    private String status;
+
     // 학생 정보
 
     private Long studentNo; // 학번
