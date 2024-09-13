@@ -3,11 +3,13 @@ package com.thxforservice.member.validators;
 
 import com.thxforservice.global.validators.MobileValidator;
 import com.thxforservice.global.validators.PasswordValidator;
+import com.thxforservice.member.constants.Authority;
 import com.thxforservice.member.controllers.RequestJoin;
 import com.thxforservice.member.repositories.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
@@ -58,6 +60,16 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
         // 4. 휴대전화번호 형식 체크
         if (!mobileCheck(mobile)) {
             errors.rejectValue("mobile", "Mobile");
+        }
+
+        Authority authority = Authority.valueOf(form.getAuthority());
+        // 추가 필수 항목 체크
+        if (authority == Authority.STUDENT) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "studentNo", "NotBlank");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "department", "NotBlank");
+        } else {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "empNo", "NotBlank");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subject", "NotBlank");
         }
     }
 }

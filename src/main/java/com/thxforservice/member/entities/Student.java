@@ -1,11 +1,14 @@
 package com.thxforservice.member.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.thxforservice.member.constants.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
+@JsonIgnoreProperties
 public class Student extends Member {
     @Column(unique = true, nullable = false)
     private Long studentNo;
@@ -15,6 +18,7 @@ public class Student extends Member {
 
     @Column(length=50)
     private String department; // 학과
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="professor")

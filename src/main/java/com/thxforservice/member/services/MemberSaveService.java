@@ -90,7 +90,7 @@ public class MemberSaveService {
      * 회원정보 수정
      * @param form
      */
-    public void save(RequestProfile form) {
+    public Member save(RequestProfile form) {
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
@@ -116,6 +116,7 @@ public class MemberSaveService {
         }
 
         member.setMobile(mobile);
+        member.setUsername(form.getUsername());
         member.setZonecode(form.getZonecode());
         member.setAddress(form.getAddress());
         member.setAddressSub(form.getAddressSub());
@@ -126,11 +127,18 @@ public class MemberSaveService {
         // 교직원(상담사, 교수), 관리자
         if (member instanceof Employee employee) {
             employee.setEmpNo(form.getEmpNo());
+            employee.setStatus(Status.valueOf(form.getStatus()));
+            employee.setSubject(form.getSubject());
             employeeRepository.saveAndFlush(employee);
         } else if (member instanceof Student student) {
             student.setStudentNo(form.getStudentNo());
+            student.setStatus(Status.valueOf(form.getStatus()));
+            student.setDepartment(form.getDepartment());
+            student.setGrade(form.getGrade());
             studentRepository.saveAndFlush(student);
         }
+
+        return member;
     }
 
 
