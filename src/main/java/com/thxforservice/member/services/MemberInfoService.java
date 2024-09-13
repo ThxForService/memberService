@@ -10,9 +10,7 @@ import com.thxforservice.global.Pagination;
 import com.thxforservice.member.MemberInfo;
 import com.thxforservice.member.constants.Authority;
 import com.thxforservice.member.controllers.MemberSearch;
-import com.thxforservice.member.entities.Member;
-import com.thxforservice.member.entities.QMember;
-import com.thxforservice.member.entities.QStudent;
+import com.thxforservice.member.entities.*;
 import com.thxforservice.member.repositories.EmployeeRepository;
 import com.thxforservice.member.repositories.MemberRepository;
 import com.thxforservice.member.repositories.StudentRepository;
@@ -146,6 +144,40 @@ public class MemberInfoService implements UserDetailsService {
 
         return new ListData<>(items, pagination);
     }
+
+    @Transactional
+    public ListData<Employee> getCounselorList(MemberSearch search) {
+        int page = Math.max(search.getPage(), 1);
+        int limit = search.getLimit();
+        limit = limit < 1 ? 20 : limit;
+        int offset = (page - 1) * limit;
+
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        QEmployee employee = QEmployee.employee;  // 상담사 엔티티
+
+        // 상담사 권한 필터링 추가 (다형성 관계를 명시적으로 처리하지 않음)
+        andBuilder.and(employee.authority.eq(Authority.COUNSELOR));  // 상담사 필터링
+
+        // 상담사(Employee)를 조회
+        List<Employee> counselors = queryFactory.selectFrom(employee)
+                .where(andBuilder)
+                .offset(offset)
+                .limit(limit)
+                .orderBy(employee.createdAt.desc())  // member의 필드 사용 가능
+                .fetch();
+
+        long total = queryFactory.selectFrom(employee)
+                .where(andBuilder)
+                .fetchCount();
+
+        // Pagination 생성
+        Pagination pagination = new Pagination(page, (int)total, 10, limit, request);
+
+        // 에러 발생 원인: ListData 생성자에 맞게 인자를 전달
+        return new ListData<>(counselors, pagination);
+    }
+
+
 
 
     public void addInfo(Member member) {
