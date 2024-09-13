@@ -1,6 +1,7 @@
 package com.thxforservice.member.services;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.thxforservice.file.entities.FileInfo;
 import com.thxforservice.file.services.FileInfoService;
@@ -51,7 +52,6 @@ public class MemberInfoService implements UserDetailsService {
             member = studentRepository.findById(member.getMemberSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
         }
 
-
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(authority.name()));
 
         addInfo(member);
@@ -89,27 +89,46 @@ public class MemberInfoService implements UserDetailsService {
         String sopt = search.getSopt();
         String skey = search.getSkey();
         sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
+
+
         if (StringUtils.hasText(skey)) {
+            /**
+             * sopt 검색옵션
+             * ALL - (통합검색) - email, userName
+             * email - 이메일로 검색
+             * userName - 닉네임으로 검색
+             */
+
+            sopt = sopt.trim();
             skey = skey.trim();
+            StringExpression expression = null;
+
             if (sopt.equals("ALL")) { // 통합 검색
 
-            } else if (sopt.equals("name")) { // 회원명, 지도교수명
+                expression = member.email.concat(member.username)
+                        .concat(member.mobile);
 
+
+            } else if (sopt.equals("name")) { // 회원명
+                expression = member.username;
+
+            } else if (sopt.equals("email")) { // 이메일
+                expression = member.email;
             }
+
+            if (expression != null) andBuilder.and(expression.contains(skey));
 
         }
 
         List<String> email = search.getEmail();
         if (email != null && !email.isEmpty()) {
-            andBuilder.and(member.email.in(email)); // 학생을 그룹 지어서 조회
+            andBuilder.and(member.email.in(email));
         }
         List<String> authoritiy = search.getAuthority();
         if (authoritiy != null && !authoritiy.isEmpty()) {
             List<Authority> authorities = authoritiy.stream().map(Authority::valueOf).toList();
-            andBuilder.and(member.authority.in(authorities)); // 권환 체크
+            andBuilder.and(member.authority.in(authorities)); // 권한 체크
         }
-
-
 
 
         /* 검색 처리 E */
@@ -127,11 +146,22 @@ public class MemberInfoService implements UserDetailsService {
 
         return new ListData<>(items, pagination);
     }
+
+
     public void addInfo(Member member) {
-        List<FileInfo> files = fileInfoService.getList(member.getGid());
-        if (files != null && !files.isEmpty()) {
-            member.setProfileImage(files.get(0));
+    /*
+        try {
+            List<FileInfo> files = fileInfoService.getList(member.getGid());
+            if (files != null && !files.isEmpty()) {
+                member.setProfileImage(files.get(0));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    */
+
     }
+
+
 
 }

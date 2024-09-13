@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import com.querydsl.core.BooleanBuilder;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -34,8 +35,10 @@ public class MemberAdminService {
         Member member = memberRepository.findById(memberSeq).orElse(null);
         if (member != null) {
 
-            memberRepository.delete(member);
-            memberRepository.flush();
+            member.setDeletedAt(LocalDateTime.now());
+
+            //memberRepository.delete(member);
+            memberRepository.saveAndFlush(member);
             return member;
         }
         return null;

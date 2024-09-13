@@ -50,6 +50,6 @@ public class MemberInfo implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return member.getDeletedAt() == null;
     }
 }

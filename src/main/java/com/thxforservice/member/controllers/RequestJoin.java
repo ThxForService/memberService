@@ -2,6 +2,8 @@ package com.thxforservice.member.controllers;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.thxforservice.member.constants.Authority;
+import com.thxforservice.member.constants.Status;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -2,10 +2,12 @@ package com.thxforservice.mypage.validators;
 
 import com.thxforservice.global.validators.MobileValidator;
 import com.thxforservice.global.validators.PasswordValidator;
+import com.thxforservice.member.constants.Authority;
 import com.thxforservice.mypage.controllers.RequestProfile;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
@@ -13,7 +15,7 @@ public class ProfileUpdateValidator implements Validator, PasswordValidator, Mob
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return false;
+        return clazz.isAssignableFrom(RequestProfile.class);
     }
 
     @Override
@@ -33,9 +35,15 @@ public class ProfileUpdateValidator implements Validator, PasswordValidator, Mob
          */
 
         RequestProfile form = (RequestProfile) target;
+        String email = form.getEmail();
         String password = form.getPassword();
         String confirmPassword = form.getConfirmPassword();
         String mobile = form.getMobile();
+
+        // 관리자에서 회원 정보 수정시 이메일 정보 필수
+        if (!StringUtils.hasText(email)) {
+            errors.rejectValue("email", "NotBlank");
+        }
 
         // 1. 비밀번호가 입력된 경우
         if (StringUtils.hasText(password)) {
@@ -55,6 +63,16 @@ public class ProfileUpdateValidator implements Validator, PasswordValidator, Mob
         // 2. 휴대전화번호가 입력된 경우
         if (StringUtils.hasText(mobile) && !mobileCheck(mobile)) {
             errors.rejectValue("mobile", "Mobile");
+        }
+
+        Authority authority = Authority.valueOf(form.getAuthority());
+        // 추가 필수 항목 체크
+        if (authority == Authority.STUDENT) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "studentNo", "NotBlank");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "department", "NotBlank");
+        } else {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "empNo", "NotBlank");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subject", "NotBlank");
         }
 
     }
