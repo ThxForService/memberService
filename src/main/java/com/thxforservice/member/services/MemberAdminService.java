@@ -37,8 +37,8 @@ public class MemberAdminService {
 
             member.setDeletedAt(LocalDateTime.now());
 
-            //memberRepository.delete(member);
-            memberRepository.saveAndFlush(member);
+            memberRepository.delete(member);
+            //memberRepository.saveAndFlush(member);
             return member;
         }
         return null;

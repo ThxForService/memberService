@@ -6,6 +6,7 @@ import com.thxforservice.global.exceptions.BadRequestException;
 import com.thxforservice.global.rests.JSONData;
 import com.thxforservice.member.MemberInfo;
 import com.thxforservice.member.MemberUtil;
+import com.thxforservice.member.entities.Employee;
 import com.thxforservice.member.entities.Member;
 import com.thxforservice.member.jwt.TokenProvider;
 import com.thxforservice.member.services.MemberInfoService;
@@ -109,14 +110,17 @@ public class MemberController {
         return new JSONData(members);
     }
 
-    /* 상담사 목록 조회
-    public JSONData getUsersByCounselor(MemberSearch search) {
-        ListData<Member> items = memberInfoService.getList(search);
+    /* 상담사 목록 조회*/
+    @Operation(summary = "상담사 목록 조회")
+    @ApiResponse(responseCode = "200")
+    @GetMapping("/counselors")
+    public JSONData getCounselorList(MemberSearch search) {
+        ListData<Employee> counselors = memberInfoService.getCounselorList(search);
 
-        return new JSONData(items);
+        return new JSONData(counselors);
     }
 
-     */
+
 
     @PatchMapping
     public JSONData update(@Valid @RequestBody RequestProfile form, Errors errors) {
