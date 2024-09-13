@@ -1,5 +1,6 @@
 package com.thxforservice.member.controllers;
 
+import com.thxforservice.global.ListData;
 import com.thxforservice.global.Utils;
 import com.thxforservice.global.exceptions.BadRequestException;
 import com.thxforservice.global.rests.JSONData;
@@ -107,6 +108,15 @@ public class MemberController {
         List<Member> members = memberInfoService.getMembers(); // 페이지 형태로 구현
         return new JSONData(members);
     }
+
+    /* 상담사 목록 조회
+    public JSONData getUsersByCounselor(MemberSearch search) {
+        ListData<Member> items = memberInfoService.getList(search);
+
+        return new JSONData(items);
+    }
+
+     */
 
     @PatchMapping
     public JSONData update(@Valid @RequestBody RequestProfile form, Errors errors) {
