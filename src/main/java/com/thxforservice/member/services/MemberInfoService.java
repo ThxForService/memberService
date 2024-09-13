@@ -158,7 +158,7 @@ public class MemberInfoService implements UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-*/
+    */
 
     }
 
