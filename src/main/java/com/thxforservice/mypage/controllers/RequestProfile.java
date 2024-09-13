@@ -24,6 +24,8 @@ public class RequestProfile {
 
     private String mobile;
 
+    private String authority;
+
     private String zonecode; // 우편번호
     private String address; // 주소
     private String addressSub; // 상세 주소
