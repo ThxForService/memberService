@@ -43,7 +43,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/api-docs/**"
                             ).permitAll(); // 회원가입, 로그인(토큰)은 모든 접근 가능
-                                c.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                                c.requestMatchers("/member/**").hasAnyAuthority("ADMIN")
                             .anyRequest().authenticated(); // 그외에는 인증 필요
                 });
 
