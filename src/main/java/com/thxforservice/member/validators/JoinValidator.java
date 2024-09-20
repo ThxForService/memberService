@@ -74,7 +74,6 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "department", "NotBlank");
         } else {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "empNo", "NotBlank");
-            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subject", "NotBlank");
         }
     }
 }
