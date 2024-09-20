@@ -39,6 +39,7 @@ public class SecurityConfig {
                         c.requestMatchers(
                             "/account",
                             "/account/token",
+                                "/account/professors",
                                 "/apidocs.html",
                                 "/swagger-ui/**",
                                 "/api-docs/**"
