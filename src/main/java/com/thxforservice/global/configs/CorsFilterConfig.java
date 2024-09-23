@@ -23,10 +23,13 @@ public class CorsFilterConfig {
         config.addAllowedMethod("*"); // 모든 요청 메서드 허용
         config.addAllowedHeader("*"); // 모든 요청 헤더 허용
         /*
-        if (!allowedOrigins.equals("*")) {
+         if (StringUtils.hasText(allowedOrigins)) {
+            List<String> origins = Arrays.stream(allowedOrigins.split(",")).toList();
+            config.setAllowedOrigins(origins);
             config.setAllowCredentials(true);
+        } else {
+            config.addAllowedOrigin("*");
         }
-        config.addAllowedOrigin(allowedOrigins);
         */
         config.addAllowedOrigin("*");
         config.addExposedHeader("*");
