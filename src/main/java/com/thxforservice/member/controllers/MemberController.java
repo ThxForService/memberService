@@ -120,6 +120,15 @@ public class MemberController {
         return new JSONData(counselors);
     }
 
+    @Operation(summary = "지도교수 목록 키워드 검색")
+    @GetMapping("/professors")
+    @PreAuthorize("permitAll()")
+    public JSONData professors(@RequestParam(name = "skey", required = false) String skey) {
+        List<Employee> items = memberInfoService.getProfessors(skey);
+
+        return new JSONData(items); // 검색을 통해서 목록이 나오면 교수를 선택
+    }
+
 
 
     @PatchMapping

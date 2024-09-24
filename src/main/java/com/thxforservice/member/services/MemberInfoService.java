@@ -16,6 +16,7 @@ import com.thxforservice.member.repositories.MemberRepository;
 import com.thxforservice.member.repositories.StudentRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,7 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Order.asc;
 
 @Service
 @RequiredArgsConstructor
@@ -191,7 +195,20 @@ public class MemberInfoService implements UserDetailsService {
             e.printStackTrace();
         }
     */
+    }
 
+    public List<Employee> getProfessors(String key) {
+        if (!StringUtils.hasText(key)) {
+            return Collections.EMPTY_LIST;
+        }
+
+        BooleanBuilder builder = new BooleanBuilder();
+        QEmployee employee = QEmployee.employee;
+        builder.and(employee.authority.eq(Authority.COUNSELOR));
+        builder.and(employee.username.concat(employee.subject).contains(key.trim()));
+        List<Employee> items = (List<Employee>)employeeRepository.findAll(builder, Sort.by(asc("username")));
+
+        return items;
     }
 
 
