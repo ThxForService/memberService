@@ -76,9 +76,11 @@ public class MemberSaveService {
 
             employeeRepository.saveAndFlush(employee);
 
-        } else if (member instanceof Student student){ // 학생 추가 정보
-            Employee employee = employeeRepository.findById(form.getProfessor()).orElse(null);
-            student.setProfessor(employee);
+        } else if (member instanceof Student student){// 학생 추가 정보
+            if (form.getProfessor() != null) {
+                Employee employee = employeeRepository.findById(form.getProfessor()).orElse(null);
+                student.setProfessor(employee);
+            }
             student.setStudentNo(form.getStudentNo());
             student.setGrade(form.getGrade());
             student.setDepartment(form.getDepartment());
