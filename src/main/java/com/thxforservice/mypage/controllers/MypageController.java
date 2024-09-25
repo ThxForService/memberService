@@ -33,9 +33,8 @@ public class MypageController {
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
-        //memberSaveService.save(form);
+        Member member = memberSaveService.save(form);
 
-        Member member = memberUtil.getMember();
 
         // 회원 정보를 입력 후  새롭게 추가
         return new JSONData(member);
