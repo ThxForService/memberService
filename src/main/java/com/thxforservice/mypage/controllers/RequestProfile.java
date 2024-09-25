@@ -41,7 +41,7 @@ public class RequestProfile {
     private Long studentNo; // 학번
     private String department; // 학과
     private String grade; // 학년
-    private Long professorSeq; // 지도 교수 기본키
+    private Long professor; // 지도 교수 기본키
 
     // 교직원 정보
 

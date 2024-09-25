@@ -29,11 +29,12 @@ public class MypageController {
     @PatchMapping("/profile")
     public JSONData profileUpdate(@RequestBody @Valid RequestProfile form, Errors errors) {
         profileUpdateValidator.validate(form, errors);
-
+        System.out.println("수정처리");
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
         Member member = memberSaveService.save(form);
+        System.out.println("수정처리");
 
 
         // 회원 정보를 입력 후  새롭게 추가
