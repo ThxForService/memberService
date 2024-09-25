@@ -77,6 +77,8 @@ public class MemberSaveService {
             employeeRepository.saveAndFlush(employee);
 
         } else if (member instanceof Student student){ // 학생 추가 정보
+            Employee employee = employeeRepository.findById(form.getProfessor()).orElse(null);
+            student.setProfessor(employee);
             student.setStudentNo(form.getStudentNo());
             student.setGrade(form.getGrade());
             student.setDepartment(form.getDepartment());
@@ -92,10 +94,14 @@ public class MemberSaveService {
      */
     public Member save(RequestProfile form) {
         Member member = memberUtil.getMember();
+        System.out.println("수정처리1");
         String email = member.getEmail();
+        System.out.println("수정처리2");
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        System.out.println("수정처리3");
 
         Authority authority = member.getAuthority();
+        System.out.println("수정처리4");
 
         if (authority == authority.STUDENT) {
             member = studentRepository.findById(member.getMemberSeq()).orElseThrow(MemberNotFoundException::new);
@@ -121,6 +127,7 @@ public class MemberSaveService {
         member.setAddress(form.getAddress());
         member.setAddressSub(form.getAddressSub());
         member.setBirthdate(form.getBirthdate());
+        System.out.println("공통수정사항 처리");
 
         /* 공통 수정 항목 D */
 
@@ -131,13 +138,17 @@ public class MemberSaveService {
             employee.setSubject(form.getSubject());
             employeeRepository.saveAndFlush(employee);
         } else if (member instanceof Student student) {
-            Employee employee = employeeRepository.findById(form.getProfessorSeq()).orElse(null);
+            System.out.println("학생수정사항 처리");
+            System.out.println("form:" + form);
+            Employee employee = employeeRepository.findById(form.getProfessor()).orElse(null);
             student.setStudentNo(form.getStudentNo());
             student.setStatus(Status.valueOf(form.getStatus()));
             student.setDepartment(form.getDepartment());
             student.setGrade(form.getGrade());
             student.setProfessor(employee);
             studentRepository.saveAndFlush(student);
+            System.out.println("학생수정사항 저장처리");
+
         }
 
         return member;

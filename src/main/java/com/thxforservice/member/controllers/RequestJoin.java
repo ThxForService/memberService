@@ -52,7 +52,7 @@ public class RequestJoin {
     private Long studentNo;
     private String grade; // 학년
     private String department; // 학과
-    private String professor; // 지도교수
+    private Long professor; // 지도교수
     /* 학생 추가 정보 E */
 
     /* 상담사 추가 정보 S */

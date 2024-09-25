@@ -7,6 +7,7 @@ import com.thxforservice.member.MemberUtil;
 import com.thxforservice.member.constants.Authority;
 import com.thxforservice.member.controllers.RequestJoin;
 import com.thxforservice.member.repositories.MemberRepository;
+import com.thxforservice.member.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -18,6 +19,7 @@ import org.springframework.validation.Validator;
 public class JoinValidator implements Validator, PasswordValidator, MobileValidator {
 
     private final MemberRepository memberRepository;
+    private final StudentRepository studentRepository;
     private final MemberUtil memberUtil;
 
     @Override
@@ -72,6 +74,11 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
         if (authority == Authority.STUDENT) {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "studentNo", "NotBlank");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "department", "NotBlank");
+
+            if (studentRepository.exists(form.getStudentNo())) {
+                errors.rejectValue("studentNo", "Duplicated");
+            }
+
         } else {
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "empNo", "NotBlank");
         }
