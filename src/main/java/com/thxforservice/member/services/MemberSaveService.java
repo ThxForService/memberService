@@ -138,6 +138,7 @@ public class MemberSaveService {
             employee.setEmpNo(form.getEmpNo());
             employee.setStatus(Status.valueOf(form.getStatus()));
             employee.setSubject(form.getSubject());
+            employee.setIntroduction(form.getIntroduction());
             employeeRepository.saveAndFlush(employee);
         } else if (member instanceof Student student) {
             System.out.println("학생수정사항 처리");
