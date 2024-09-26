@@ -47,4 +47,6 @@ public class RequestProfile {
 
     private Long empNo; // 사번
     private String subject; // 담당 과목
+
+    private String introduction;
 }
