@@ -76,7 +76,9 @@ public class MemberSaveService {
 
             employeeRepository.saveAndFlush(employee);
 
-        } else if (member instanceof Student student){// 학생 추가 정보
+
+        } else if (member instanceof Student student){ // 학생 추가 정보
+
             if (form.getProfessor() != null) {
                 Employee employee = employeeRepository.findById(form.getProfessor()).orElse(null);
                 student.setProfessor(employee);
@@ -138,6 +140,7 @@ public class MemberSaveService {
             employee.setEmpNo(form.getEmpNo());
             employee.setStatus(Status.valueOf(form.getStatus()));
             employee.setSubject(form.getSubject());
+            employee.setIntroduction(form.getIntroduction());
             employeeRepository.saveAndFlush(employee);
         } else if (member instanceof Student student) {
             System.out.println("학생수정사항 처리");
