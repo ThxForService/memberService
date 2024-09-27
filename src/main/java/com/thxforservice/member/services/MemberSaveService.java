@@ -145,12 +145,16 @@ public class MemberSaveService {
         } else if (member instanceof Student student) {
             System.out.println("학생수정사항 처리");
             System.out.println("form:" + form);
-            Employee employee = employeeRepository.findById(form.getProfessor()).orElse(null);
+            Long professor = form.getProfessor();
+            if (professor != null) {
+                Employee employee = employeeRepository.findById(form.getProfessor()).orElse(null);
+                student.setProfessor(employee);
+            }
             student.setStudentNo(form.getStudentNo());
             student.setStatus(Status.valueOf(form.getStatus()));
             student.setDepartment(form.getDepartment());
             student.setGrade(form.getGrade());
-            student.setProfessor(employee);
+
             studentRepository.saveAndFlush(student);
             System.out.println("학생수정사항 저장처리");
 
